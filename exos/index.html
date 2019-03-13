@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div ng-app>
+           <div ng-init="courses = [
+                {Article: 'Farine', Prix:'€ 2.30'},
+                {Article: 'Sucre', Prix:'€ 1.35'},
+                {Article:'Gâteaux', Prix:'€ 3.90'},
+                {Article:'Huile', Prix:'€ 5.25'}
+                ]">
+               
+               J'ai {{ courses.length }} articles à acheter <br/>
+               
+                   <table>
+                          
+                               Article
+                           <tr><td ng-repeat="course in courses">{{ course.Article }}</td>
+                       </tr>
+                           <tr>
+                               Prix
+                               <td ng-repeat="course in courses">{{ course.Prix }}</td>
+                       </tr>
+               </table>
+                  
+        </div>
+        
+  
+        
+        <script src="angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    </body>
+</html>
