@@ -9,33 +9,207 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
     </head>
     <body>
-        <div ng-app>
-           <div ng-init="courses = [
+        <div ng-app ng-controller="Controller">
+            <div ng-init="courses = [
                 {Article: 'Farine', Prix:'€ 2.30'},
-                {Article: 'Sucre', Prix:'€ 1.35'},
-                {Article:'Gâteaux', Prix:'€ 3.90'},
-                {Article:'Huile', Prix:'€ 5.25'}
-                ]">
-               
-               J'ai {{ courses.length }} articles à acheter <br/>
-               
-                   <table>
-                          
-                               Article
-                           <tr><td ng-repeat="course in courses">{{ course.Article }}</td>
-                       </tr>
-                           <tr>
-                               Prix
-                               <td ng-repeat="course in courses">{{ course.Prix }}</td>
-                       </tr>
-               </table>
-                  
-        </div>
-        
-  
-        
+               {Article: 'Sucre', Prix:'€ 1.35'},
+               {Article:'Gâteaux', Prix:'€ 3.90'},
+               {Article:'Huile', Prix:'€ 5.25'},
+               {Article:'Chocolat', Prix:'€ 3.25'}
+               ]">
+
+                J'ai {{ courses.length}} articles à acheter <br/>
+
+                <table>
+
+                    <th>Article</th>
+                    <th>Prix</th>
+                    <tr  ng-repeat="course in courses">
+                        <td>{{ course.Article}}</td>
+
+
+                        <td>{{ course.Prix}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <input id="name" type="text" ng-model="name" placeholder="Entrez votre nom ici">
+            <h1> T'a oublié les patates {{ name}} !!</h1>
+
+            <form ng-init="value1 = true; value2 = false">
+                Valeur 1: <input type="checkbox" ng-model="value1">{{ value1}}<br/>
+                Valeur 2: <input type="checkbox" ng-model="value2">{{ value2}}
+            </form>
+
+            <div ng-init="villes = ['Paris', 'Lyon', 'Dijon', 'Annecy', 'Montbard']">
+                <select ng-model="valeur" ng-options="villes.indexOf(v) as v for v in villes">
+                    <option value="">--- Choisissez une ville --</option>
+                </select>
+                Valeur de l'option: {{ valeur}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="texte">Choisissez une couleur :</label>
+
+                <select class="form-control" ng-model="classe" ng-init="classe = 'btn-default'">
+
+                    <option>btn-default</option>
+                    <option>btn-primary</option>
+                    <option>btn-success</option>
+                    <option>btn-info</option>
+                    <option>btn-warning</option>
+                    <option>btn-danger</option>
+
+                </select>
+            </div>
+            <button type="button" class="btn {{classe}}">Je suis un bouton avec la classe {{classe}}</button>
+
+            <p>{{texte}}</p>
+            <script>
+                function Controller($scope){
+                $scope.texte = 'Bonjour!';
+                }
+            </script>
+
+            <textarea class="form-control" rows="3" ng-model="textecrit" ng-change="changement()"></textarea>
+            Nombre de mots: {{nombre}}
+            <script>
+                function Controller($scope){
+                $scope.nombre = 0;
+                $scope.changement = function(){
+
+                $scope.nombre = $scope.textecrit.split(/\b\w+\b/).length - 1;
+                }
+                }
+            </script>
+
+            <form ng-submit="ajouter(nom, agee)">
+
+                Nom: <input type="text" name="nom" ng-model="nom">
+                Age: <input type="number" name="agee" ng-model="agee">
+
+                <br>
+                <button type="submit">Ajouter</button>
+            </form>
+
+            <table>
+                <caption>Personnes</caption>
+                <tr>
+                    <th>Nom</th>
+                    <th>Age</th>
+                </tr>
+                <tr ng-repeat="personne in personnes">
+                    <td>{{personne.nom}}</td>
+                    <td>{{personne.agee}}</td>
+                </tr>
+            </table>
+            <script>
+                function Controller($scope){
+
+                $scope.personnes = new Array();
+                $scope.ajouter = function(nom, agee){
+
+                $scope.personnes.push({'nom': nom, 'agee': agee})
+                };
+                }
+            </script>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger" ng-click="voirDanger()">Danger</button>
+                <button type="button" class="btn btn-warning" ng-click="voirWarning()">Alerte</button>
+                <button type="button" class="btn btn-info" ng-click="voirInfo()">Information</button>
+            </div>
+            <div class="alert" ng-class="maClasse">{{message}}        
+            </div>
+
+            <script>
+                function Controller($scope){
+
+                $scope.voirDanger = function(){
+
+                $scope.message = "On est en danger !";
+                $scope.maClasse = "alert-danger";
+                };
+                $scope.voirWarning = function(){
+
+                $scope.message = "Une alerte voilà";
+                $scope.maClasse = "alert-warning";
+                };
+                $scope.voirInfo = function(){
+
+                $scope.message = "Une information";
+                $scope.maClasse = "alert-info";
+                };
+                }
+
+            </script>
+
+            <style type="text/css">.ng-invalid {border-color: red}</style>
+            <h2>Inscription</h2>
+            <form name="addUser" ng-controller="controleur" ng-submit="soumission(addUser.$valid)">
+                <div class="form-group">
+                    <label for="nom">Nom:</label>
+                    <input type='text' class="form-control" id="noms" placeholder="Votre nom" ng-model="user.nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="nom">Prénom:</label>
+                    <input type="text" class="form-control" id="prenoms" placeholder="Votre prénom" ng-model="user.prenom" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="emails" placeholder="Votre email" ng-model="user.email" required>
+                </div>
+                <div class="alert" ng-class="msgClass" ng-show="message">{{message}}
+                </div>
+                <button class="btn btn-default" type="submit">Envoyer</button>
+            </form>
+
+            <script>
+                function controleur($scope){
+
+                $scope.message = '';
+                $scope.soumission = function(valid){
+
+                if (valid){
+
+                $scope.msgClass = 'alert-success';
+                $scope.message = 'Merci ' + $scope.user.nom + ' pour votre message !';
+                }
+                else{
+                $scope.msgClass = 'alert-danger';
+                $scope.message = 'Désolé mais il y a des données non valide';
+                }
+                };
+                }
+            </script>
+
+            <form ng-submit="toto()">
+            <input type="text" ng-model="text"></input> {{text}}
+            <button type="submit">coucou</button>
+            </form>
+            <script>
+                function Controller($scope){
+                     $scope.toto = function(){
+
+                         console.log( $scope.text);
+                     }
+                    
+                    
+                }
+            </script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
         <script src="angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     </body>

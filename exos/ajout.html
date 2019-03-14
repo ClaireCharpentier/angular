@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app ng-controller="Controleur">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!-- FORMULAIRE AJOUT TABLEAU -->
+        <h2>Ajout d'utilisateur</h2>
+        <style type="text/css">.ng-invalid {border-color: red}</style>
+        <h2>Inscription</h2>
+        <form name="addUser" ng-submit="soumission(addUser.$valid)">
+            <div>
+            <label for="nom">Nom:</label>
+            <input type='text' name="nom" id="nom" placeholder="Votre nom" ng-model="user.nom" required>
+            </div>
+            <div>
+            <label for="nom">Prénom:</label>
+            <input type="text" name="prenom"  id="prenom" placeholder="Votre prénom" ng-model="user.prenom" required>
+            </div>
+            <div>
+                <label for="role">Rôle:</label>
+
+                Actif: <input type="radio" ng-model="user.role" value="actif" id="actif">
+                Membre: <input type="radio" ng-model="user.role" value="membre" id="membre">
+            </div>
+
+            <button class="btn btn-default" type="submit">Ajouter</button>
+        </form>
+        <table>
+            <caption>Personnes</caption>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Rôle</th>
+            </tr>
+            <tr ng-repeat="user in users">
+                <td>{{user.nom}}</td>
+                <td>{{user.prenom}}</td>
+                <td>{{user.role}}</td>
+            </tr>
+        </table>
+        <script>
+            function Controleur($scope) {
+            $scope.users = new Array();
+            $scope.user = {nom: '', prenom:'', role: ''};
+            $scope.soumission = function(valid) {
+                if(valid){
+                    $scope.users.push($scope.user);
+                    $scope.user = {nom:'', prenom:'', role:''};
+                }
+                        
+            
+            };
+            }
+        </script>
+
+
+
+
+
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="angular.js"></script>
+
+    </body>
+</html>
