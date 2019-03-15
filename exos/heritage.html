@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Liste de personne</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!-- Activation de l'application Angular -->
+        <div ng-app="MyApp">
+            <div ng-controller="Controller">
+        <table class="table table-bordered">
+            <caption><h1 style="text-align:center">Liste des personnes</h1></caption>
+                    <tr>
+                        <!-- Au clique, champ = nomdeinput et ordre croissant ou l'inverse -->
+                        <th><a href="" ng-click="champ = 'lastname'; inverse=!inverse">Nom</th></a>
+                        <th><a href="" ng-click="champ = 'firsname'; inverse=!inverse">Prénom</th></a>
+                         <th><a href="" ng-click="champ = 'age'; inverse=!inverse">Age</th></a>
+                         <th><a href="" ng-click="champ = 'sexe'; inverse=!inverse">Sexe</th></a>
+                    </tr>
+                    <!-- Afficher toutes les personnes par ordre inverse du champ, filtrer par l'objet search, filtrer par sexes, age par age -->
+                    <tr ng-repeat="personn in personns | orderBy:champ:inverse | filter:search | filter:sexes | age:age">
+                        <td>{{personn.lastname}}</td>
+                        <td>{{personn.firsname}}</td>
+                        <td>{{personn.age}}</td>
+                        <td>{{personn.sexe}}</td>
+                    </tr>
+                   
+                </table>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Recherche</div>
+                    <div class="panel-body">
+                        <!-- div radio -->
+                        <div class="radio">
+                            <label>
+                                <!-- input radio valeur lastname model: column-->
+                                <input type="radio" name="checkradio" value="lastname" ng-model="column">
+                                Par nom:
+                            </label>
+                        </div>
+                        <!-- div radio -->
+                        <div class="radio">
+                            <label>
+                                <!-- input type radio, valeur age, model column -->
+                                <input type="radio" name="checkradio" value="age" ng-model="column">
+                                Par âge:
+                            </label>
+                        </div>
+                        <!-- div formulaire -->
+                        <div class="form">
+                            <!-- label lastname avec column qui représente le choix de la colonne ( selon le bouton coché -->
+                            <label for="lastname">Entrez un {{column}}:</label>
+                            <!-- input qui affiche le choix de la colonne séléctionné -->
+                            <input type="text" class="form-control" id="nom" placeholder="Entrez un {{column}} ici" ng-model="search[column]">
+                        </div>
+                        <!-- Bouton qui lance la fonction resetSearch -->
+                        <button type="button" class="btn btn-default" ng-click="resetSearch()">Reset</button>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Filtrage</div>
+                    <div class="panel-body">
+                        <div class="form">
+                            <label for="age">Entrez un âge limite:</label>
+                            <!-- input qui trie en fonction de l'age maximum grace à ng model: age -->
+                            <input type="text" class="form-control" id="age" placeholder="Entrez un âge limite ici" ng-model="age">
+                        </div>
+                        <!-- select avec ng model sexes.sexe (relié au filtre) -->
+                        <select ng-model="sexes.sexe">
+                            <option value="">--filtrer par genre--</option>
+                            <option value="M">Que les hommes</option>
+                            <option value="F">Que les femmes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+                    <!-- Latest compiled and minified JavaScript -->
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+            <script>
+                //Lancement de l'application angular et objet vide
+                var MyApp = angular.module('MyApp',[]);
+                //fonction factory sur myapp avec comme attribut personns(=liste des personnes) et une nouvelle fonction qui definni la variable personns.
+                MyApp.factory('personns', function(){
+                    var personns = 
+                        [
+                { lastname:'Dupont', firsname:'Albert', age:25, sexe:'M' },
+	    		{ lastname:'Durand', firsname:'Leon', age:40, sexe:'M' },
+	    		{ lastname:'Saulvit', firsname:'Paul', age:50, sexe:'M' },
+	    		{ lastname:'Ragout', firsname:'Martine', age:42, sexe:'F' },
+	    		{ lastname:'Bernard', firsname:'Valérie', age:27, sexe:'F' },
+	    		{ lastname:'Tolout', firsname:'Jacques', age:63, sexe:'M' },
+            ];
+                return personns;
+               //function qui filtre par age //
+                }).filter('age', function(){
+                // retourner la fonction: //
+                    return function (items,age){
+                        // definition de out = tableau vide
+                        var out = [];
+                        // pour chaque items lancer la fonction item
+                        angular.forEach(items, function (item){
+                            // si un item est plus petit que l'age saisie
+                            if(item.age < age){
+                                // pousser l'item dans le tableau out
+                                out.push(item);
+                            }
+                        });
+                        //afficher le tableau out
+                        return out;
+                    }
+                }).
+                    //lancement du controller avec le nom du controller, scope,personns et une fonction qui initialise tous les objets
+                    controller('Controller',['$scope', 'personns',
+                function($scope,personns){
+                    $scope.personns = personns;
+                    $scope.champ = 'lastname';
+                    $scope.inverse = false;
+                    $scope.search = {};
+                    $scope.column = 'lastname';
+                    $scope.age = 70;
+                   $scope.resetSearch = function(){
+                       $scope.search = {};
+                   };
+                }
+            ]);
+            </script>
+
+            
+        </div>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    </body>
+</html>
