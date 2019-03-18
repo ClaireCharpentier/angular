@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Directives</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="controller">
+           <myspace-directive1></myspace-directive1>
+            <myspace-directive2></myspace-directive2>
+            <script>
+                angular.module('myApp', []).directive('myspaceDirective1', function(){
+
+                return{
+
+                template: "<p>Je suis une directive insère </p>",
+                    restrict: "E"
+                }
+                }).directive('myspaceDirective2', function(){
+
+                return{
+                template: "<p> je suis une directive qui remplace </p>",
+                    restrict: "E",
+                    replace: true
+                }
+                });
+            </script>
+
+
+            <div myspace-directive3>Alfred</div>
+            <div myspace-directive4>Alfred</div>
+
+            <script>
+                angular.module('myApp', []).directive('myspaceDirective3', function(){
+
+                return {
+                template: "<p>Bonjour lulu</p>",
+                }
+                }).directive("myspaceDirective4", function(){
+
+                return {
+                template:"<p>Bonjour <span ng-transclude></span></p>",
+                    transclude: true
+                }
+                });
+            </script>
+
+            <div myspace-directive5>Cliquez sur moi ! </div>
+            <script>
+                angular.module('myApp', []).directive('myspaceDirective5', function(){
+
+                return function (scope, element){
+
+                element.bind('click', function(){
+
+                alert(element.text());
+                })
+                }
+                })
+            </script>
+
+            <div myspace-directive6="text-success">Passez sur moi !</div>
+            <script>
+                    var myApp = angular.module("myApp", []);
+                myApp.directive('myspaceDirective6', function(){
+
+                return function(scope, element, attrs){
+
+                element.bind('mouseenter', function(){
+
+                element.addClass(attrs.myspaceDirective6);
+                });
+                element.bind('mouseleave', function(){
+
+                element.removeClass(attrs.myspaceDirective6);
+                })
+                }
+                });
+            </script>
+
+           <button myspace-directive7 class="btn btn-default">Cliquez sur moi !</button>
+
+            <script>
+                var myApp = angular.module("myApp", []);
+                myApp.controller("controller", function ($scope){
+
+                $scope.nombre = 0;
+                });
+                myApp.directive("myspaceDirective7", function(){
+
+                return function (scope, element){
+
+                element.bind("click", function(){
+
+                element.text('Vous avez cliqué ' + ++scope.nombre + ' fois!');
+                })
+                }
+                });
+            </script> 
+          
+          <div>{{nom}} {{prenom}}</div>
+          <div myspace-directive8>{{nom}} {{prenom}}</div>
+          <script>
+              angular.module('myApp', []).
+              controller('controller', function($scope){
+                  
+                  $scope.nom = "Dupont";
+                  $scope.prenom = 'Jacques';
+              }).directive('myspaceDirective8', function(){
+                  
+                  return{
+                      
+                      scope: {},
+                      template: '<input type="text" ng-model="nom" placeholder="Entre un nom ici"> {{nom}}'
+                  };
+              });
+          </script>
+        </div>
+        
+
+    </body>
+</html>
