@@ -18,71 +18,93 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     </head>
     <body>
-       <div ng-app="myApp" ng-controller="Controller">
+        <div ng-app="myApp" ng-controller="Controller">
 
-              <!--   {{str}}
+            <!--   {{str}}
 
-            <table class="table table-bordered">
-                <caption>Personnes</caption>
-                <tr>
-                    <th class="center">Nom</th>
-                    <th class="center">Prénom</th>
-                </tr>
-                <tr myspace-directive1 ident="ref01" str="{{str}}"></tr>
-                <tr myspace-directive1 ident="ref02"></tr>
-                <tr myspace-directive1 ident="ref03"></tr>
-            </table>
+          <table class="table table-bordered">
+              <caption>Personnes</caption>
+              <tr>
+                  <th class="center">Nom</th>
+                  <th class="center">Prénom</th>
+              </tr>
+              <tr myspace-directive1 ident="ref01" str="{{str}}"></tr>
+              <tr myspace-directive1 ident="ref02"></tr>
+              <tr myspace-directive1 ident="ref03"></tr>
+          </table>
 
-            <script>
-                var app = angular.module('myApp', []);
-                app.controller('Controller',
-                    function($scope, $timeout) {
-                    $scope.str = "Hello Claire !";
-                    $scope.ref01 = {lastname: 'Dupont', firstname: 'Jacques'};
-                    $scope.ref02 = {lastname: 'Durand', firstname: 'Albert'};
-                    $scope.ref03 = {lastname: 'Martin', firstname: 'Léon'};
-                    
-                    $timeout(function() {
-                        $scope.str="HEllO DAM !"
-                    }, 10000);
-                    }
-                );
-                app.directive('myspaceDirective1',
-                    function($timeout){
-                    return{
-                    restrict:"A",
-                        scope: {
-                        identite: '=ident',
-                        str:'@'
-                        },
-                        template:'<td>{{identite.lastname}}</td><td>{{identite.firstname}}</td><td>{{str}}</td>',
-                        link: function(scope, elm) {
-                        $timeout(function() {
-                            scope.str = "Hello Heddy !";
-                        }, 5000);
-                        }
-                    };
-                    }
-                );
-            </script>
-        </div>-->
-       
-              <table class="table table-bordered">
-                  <div myspace-directive1 couleur="rouge"></div>
-                  <div myspace-directive2 couleur="jaune"></div>
-              </table>
-              <script>
-                  var myApp = angular.module('myApp', []);
-                  myApp.controller("Controller", function ($scope){});
-                  myApp.directive('myspaceDirective2', function(){
-                      
-                      return{
-                          scope: {
-                              couleur: '@'
-                          },
-                          template:'Couleur: {{couleur}}',
-                      };
-                  })
-              </script>
+          <script>
+              var app = angular.module('myApp', []);
+              app.controller('Controller',
+                  function($scope, $timeout) {
+                  $scope.str = "Hello Claire !";
+                  $scope.ref01 = {lastname: 'Dupont', firstname: 'Jacques'};
+                  $scope.ref02 = {lastname: 'Durand', firstname: 'Albert'};
+                  $scope.ref03 = {lastname: 'Martin', firstname: 'Léon'};
+                  
+                  $timeout(function() {
+                      $scope.str="HEllO DAM !"
+                  }, 10000);
+                  }
+              );
+              app.directive('myspaceDirective1',
+                  function($timeout){
+                  return{
+                  restrict:"A",
+                      scope: {
+                      identite: '=ident',
+                      str:'@'
+                      },
+                      template:'<td>{{identite.lastname}}</td><td>{{identite.firstname}}</td><td>{{str}}</td>',
+                      link: function(scope, elm) {
+                      $timeout(function() {
+                          scope.str = "Hello Heddy !";
+                      }, 5000);
+                      }
+                  };
+                  }
+              );
+          </script>
+      </div>-->
+
+            <!-- <table class="table table-bordered">
+                 <div myspace-directive1 couleur="rouge"></div>
+                 <div myspace-directive2 couleur="jaune"></div>
+             </table>
+             <script>
+                 var myApp = angular.module('myApp', []);
+                 myApp.controller("Controller", function ($scope){});
+                 myApp.directive('myspaceDirective2', function(){
+                     
+                     return{
+                         scope: {
+                             couleur: '@'
+                         },
+                         template:'Couleur: {{couleur}}',
+                     };
+                 })
+             </script> -->
+
+          
+	<div monespace-directive changetexte="chgTexte(texte)"></div> {{texte}}
+    <script>
+	    angular.module('myApp', []).
+	    controller('Controller', function ($scope) {
+	    	$scope.chgTexte = function (value) {
+		        $scope.texte = value;
+		    };
+	    }).
+	    directive('monespaceDirective', function () {
+	    	return {
+		    	scope: {
+		    		changetexte: '&'
+		    	},
+			template: '<input type="text" class="form-control" placeholder="Entrer du texte ici"' + 
+			'ng-model="value" ng-change="changetexte({texte:value})">'
+		};
+	    });
+    </script>
+</div>
+           
     </body>
 </html>
