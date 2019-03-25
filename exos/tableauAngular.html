@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Tableau Angular</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <script src="./app.js"></script>
+    </head>
+    <body>
+        <div ng-app="myApp" ng-controller="Controller">
+
+            <h3>Ajouter des légumes</h3>
+            <!-- FORMULAIRE AJOUT TABLEAU -->
+            <form name='addTable 'ng-submit="actions.addTable()">
+                <input type='text' name="type" id="type" placeholder="le nom du légume" ng-model="newVegetable.type"  required>
+                <input type='number' name="price" id="price" placeholder="le prix" ng-model="newVegetable.price" required>
+                <button class="btn btn-success" type="submit">Ajouter</button>
+            </form>
+            <hr>
+
+            <h3>Mise à jour du légume</h3>
+            <form name='addTable 'ng-submit="actions.edit()">
+                <input type='text' name="type" id="type" ng-model='editVegetable.type'>
+                <input type='number' name="price" id="price" ng-model='editVegetable.price'>
+                <button  class="btn btn-warning" type="submit" >Enregistrer</button>
+            </form>
+            <hr>
+
+            <div>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Légume</th>
+                            <th>Prix (€)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="vegetable in vegetables">
+                            <td>{{vegetable.type}}</td>
+                            <td>{{vegetable.price}}</td>
+                            <td>{{vegetable.id}}</td>
+                            <td>
+                                <button id='edit' class="btn btn-warning" type="submit" ng-click="actions.buttonEdit($index)">Modifier</button>
+                            </td>
+                            <td>
+                                <button id='delete' class="btn btn-danger" type="submit" ng-click="actions.deleteVegetable($index)">Supprimer</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

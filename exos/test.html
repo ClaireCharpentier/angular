@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    </head>
+    <body>
+       <div ng-app="monApplication" ng-controller="controleur">
+    <div class="panel panel-default">
+  		<div class="panel-heading">
+    		<h3>Avertissement</h3>
+	    </div>
+		<div class="panel-body">
+			<monespace-liste message="Avertissement" identite="identite" send="envoi(nom, message)"></monespace-directive>
+		</div>
+	</div>
+    <div class="panel panel-default">
+  		<div class="panel-heading">
+			<h3>Félicitation</h3>
+		</div>
+		<div class="panel-body">
+			<monespace-liste message="Félicitation" identite="identite" send="envoi(nom, message)"></monespace-directive>
+		</div>
+	</div>
+	<monespace-pannel titre="Avertissement"></monespace-pannel>
+	<monespace-pannel titre="Félicitation"></monespace-pannel>
+    <script>
+	    angular.module('monApplication', []).
+	    controller('controleur', function ($scope) {
+	    	$scope.identite = [
+	    		{ nom: 'Dupont', fonction: 'Manager' },
+	    		{ nom: 'Durand', fonction: 'Ouvrier' },
+	    		{ nom: 'Martin', fonction: 'Ouvrier' },
+	    		{ nom: 'Houlie', fonction: 'Ouvrier' },
+	    		{ nom: 'Ravino', fonction: 'Manager' },
+	    		{ nom: 'Zerben', fonction: 'Ouvrier' }
+	    	];
+	    	$scope.envoi = function(nom, message){
+				alert('Nom : ' + nom + '\nTexte : ' + message);
+			};
+	    }).
+	    directive('monespaceListe', function () {
+			return {
+				restrict: 'E',
+				scope: {
+					message: '@',
+					identite: '=',
+					send: '&'
+				},
+				template: 'Collaborateur :<select class="form-control" ng-model="personne" ng-options="p.nom group by p.fonction for p in identite"></select>' +
+					'Corriger le nom : <input type="text" class="form-control" ng-model="personne.nom"></input>' +
+					'<button class="btn btn-default" ng-click="send({nom: personne.nom, message: message})">Envoi !</button>',
+				link: function(scope) {
+					scope.personne = scope.identite[0];
+				}
+			};
+	    });
+    </script>
+</div>
+    </body>
+</html>
